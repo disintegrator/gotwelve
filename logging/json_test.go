@@ -2,6 +2,7 @@ package logging
 
 import (
 	"encoding/json"
+	"errors"
 	"testing"
 )
 
@@ -81,5 +82,18 @@ func TestJSONLogDebug(t *testing.T) {
 	logger.Debug("test")
 	if target.Level != "debug" {
 		t.Errorf("Expected level: %s. Got: %s.", "debug", target.Level)
+	}
+}
+
+func TestJSONLogErr(t *testing.T) {
+	target := new(writeTarget)
+	logger := NewJSONLoggerWithWriter("myapp", "default", target)
+	logger.Err(errors.New("oops"))
+
+	if target.Level != "error" {
+		t.Errorf("Expected level: %s. Got: %s.", "debug", target.Level)
+	}
+	if target.Message != "oops" {
+		t.Errorf("Expected message: %s. Got: %s.", "oops", target.Message)
 	}
 }

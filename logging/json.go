@@ -63,6 +63,11 @@ func (l *JSONLogger) Debug(format string, args ...interface{}) {
 	l.Log("debug", format, args...)
 }
 
+// Err logs an error object with "error" level
+func (l *JSONLogger) Err(err error) {
+	l.Error("%v", err)
+}
+
 // NewJSONLogger constructs a json logger which outputs to stdout
 func NewJSONLogger(service string, name string) *JSONLogger {
 	return NewJSONLoggerWithWriter(service, name, os.Stdout)
