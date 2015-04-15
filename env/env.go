@@ -15,6 +15,9 @@ type VarSpec struct {
 	Optional     bool
 }
 
+// SpecMap is a mapping of config variable names to their specification
+type SpecMap map[string]VarSpec
+
 // Config is a mapping that maps and config name to its value retreived from the
 // environment
 type Config map[string]string
@@ -30,7 +33,7 @@ func noopParser(val string) string { return val }
 
 // NewConfigFromEnv Constructs a config mapping by looking up the OS environment
 // variables
-func NewConfigFromEnv(spec map[string]VarSpec) (Config, error) {
+func NewConfigFromEnv(spec SpecMap) (Config, error) {
 	source := make(map[string]string, len(spec))
 	for _, varspec := range spec {
 		source[varspec.Name] = os.Getenv(varspec.Name)

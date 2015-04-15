@@ -1,9 +1,10 @@
 package env
 
 import (
+	"testing"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
-	"testing"
 )
 
 type EnvConfigTestSuite struct {
@@ -22,7 +23,7 @@ func (suite *EnvConfigTestSuite) SetupTest() {
 }
 
 func (suite *EnvConfigTestSuite) TestGetEnvironmentVariable() {
-	config, _ := newConfig(map[string]VarSpec{
+	config, _ := newConfig(SpecMap{
 		"test:var": {Name: suite.varName},
 	}, suite.source)
 
@@ -30,7 +31,7 @@ func (suite *EnvConfigTestSuite) TestGetEnvironmentVariable() {
 }
 
 func (suite *EnvConfigTestSuite) TestMissingEnvironmentVariable() {
-	_, err := newConfig(map[string]VarSpec{
+	_, err := newConfig(SpecMap{
 		"test:var": {Name: suite.varName},
 	}, suite.emptySource)
 
@@ -38,7 +39,7 @@ func (suite *EnvConfigTestSuite) TestMissingEnvironmentVariable() {
 }
 
 func (suite *EnvConfigTestSuite) TestDefaultEnvironmentVariable() {
-	config, _ := newConfig(map[string]VarSpec{
+	config, _ := newConfig(SpecMap{
 		"test:var": {
 			Name:         suite.varName,
 			DefaultValue: "default",
@@ -49,7 +50,7 @@ func (suite *EnvConfigTestSuite) TestDefaultEnvironmentVariable() {
 }
 
 func (suite *EnvConfigTestSuite) TestOptionalEnvironmentVariable() {
-	config, _ := newConfig(map[string]VarSpec{
+	config, _ := newConfig(SpecMap{
 		"test:var": {
 			Name:     suite.varName,
 			Optional: true,
@@ -60,7 +61,7 @@ func (suite *EnvConfigTestSuite) TestOptionalEnvironmentVariable() {
 }
 
 func (suite *EnvConfigTestSuite) TestEnvironmentVariableParser() {
-	config, _ := newConfig(map[string]VarSpec{
+	config, _ := newConfig(SpecMap{
 		"test:var": {
 			Name: suite.varName,
 			Parser: func(val string) string {
@@ -73,7 +74,7 @@ func (suite *EnvConfigTestSuite) TestEnvironmentVariableParser() {
 }
 
 func (suite *EnvConfigTestSuite) TestOptionalEnvironmentVariableParser() {
-	config, _ := newConfig(map[string]VarSpec{
+	config, _ := newConfig(SpecMap{
 		"test:var": {
 			Name:     suite.varName,
 			Optional: true,
@@ -87,7 +88,7 @@ func (suite *EnvConfigTestSuite) TestOptionalEnvironmentVariableParser() {
 }
 
 func (suite *EnvConfigTestSuite) TestEnvironmentVariableFlag() {
-	config, _ := newConfig(map[string]VarSpec{
+	config, _ := newConfig(SpecMap{
 		"test:var": {Name: suite.varName},
 	}, suite.source)
 
